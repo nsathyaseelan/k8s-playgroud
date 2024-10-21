@@ -1,0 +1,85 @@
+apiVersion: kyverno.io/v2beta1
+kind: PolicyException
+metadata:
+  labels:
+    cleanup.kyverno.io/ttl: 2024-10-28T115531Z
+  name: policy-exc-req-m9730r6736s-0
+  namespace: kyverno
+spec:
+  exceptions:
+  - policyName: drop-all-capabilities
+    ruleNames:
+    - require-drop-all
+    - autogen-require-drop-all
+  - policyName: disallow-capabilities
+    ruleNames:
+    - adding-capabilities
+    - autogen-adding-capabilities
+  - policyName: require-pod-probes
+    ruleNames:
+    - validate-probes
+    - autogen-validate-probes
+  - policyName: disallow-privileged-containers
+    ruleNames:
+    - privileged-containers
+    - autogen-privileged-containers
+  - policyName: restrict-volume-types
+    ruleNames:
+    - restricted-volumes
+    - autogen-restricted-volumes
+  - policyName: require-requests-limits
+    ruleNames:
+    - validate-resources
+    - autogen-validate-resources
+  - policyName: disallow-host-path
+    ruleNames:
+    - host-path
+    - autogen-host-path
+  - policyName: disallow-capabilities-strict
+    ruleNames:
+    - adding-capabilities-strict
+    - require-drop-all
+    - autogen-adding-capabilities-strict
+    - autogen-require-drop-all
+  - policyName: restrict-seccomp-strict
+    ruleNames:
+    - check-seccomp-strict
+    - autogen-check-seccomp-strict
+  match:
+    any:
+    - resources:
+        kinds:
+        - DaemonSet
+        names:
+        - kindnet
+        - kube-proxy
+        namespaces:
+        - kube-system
+    - resources:
+        kinds:
+        - Deployment
+        names:
+        - coredns
+        namespaces:
+        - kube-system
+    - resources:
+        kinds:
+        - Pod
+        names:
+        - kube-scheduler-test-control-plane
+        - kindnet-lcz5j
+        - kube-apiserver-test-control-plane
+        - coredns-6f6b679f8f-zxhsq
+        - etcd-test-control-plane
+        - coredns-6f6b679f8f-cqlf5
+        - kube-proxy-t2rhb
+        - kube-controller-manager-test-control-plane
+        namespaces:
+        - kube-system
+    - resources:
+        kinds:
+        - ReplicaSet
+        names:
+        - coredns-6f6b679f8f
+        namespaces:
+        - kube-system
