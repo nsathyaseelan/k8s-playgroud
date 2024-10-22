@@ -1,0 +1,51 @@
+apiVersion: kyverno.io/v2beta1
+kind: PolicyException
+metadata:
+  labels:
+    cleanup.kyverno.io/ttl: 2024-10-29T075355Z
+  name: policy-exc-req-h8171r7008n-0
+  namespace: kyverno
+spec:
+  exceptions:
+  - policyName: restrict-automount-sa-token
+    ruleNames:
+    - autogen-validate-automountServiceAccountToken
+    - validate-automountServiceAccountToken
+  match:
+    any:
+    - resources:
+        kinds:
+        - ReplicaSet
+        names:
+        - coredns-6f6b679f8f
+        namespaces:
+        - kube-system
+    - resources:
+        kinds:
+        - Deployment
+        names:
+        - coredns
+        namespaces:
+        - kube-system
+    - resources:
+        kinds:
+        - Pod
+        names:
+        - kube-scheduler-new-change-control-plane
+        - coredns-6f6b679f8f-bt5l6
+        - kindnet-slmsn
+        - kube-proxy-6cwx4
+        - coredns-6f6b679f8f-s8dth
+        - kube-controller-manager-new-change-control-plane
+        - etcd-new-change-control-plane
+        - kube-apiserver-new-change-control-plane
+        namespaces:
+        - kube-system
+    - resources:
+        kinds:
+        - DaemonSet
+        names:
+        - kube-proxy
+        - kindnet
+        namespaces:
+        - kube-system
