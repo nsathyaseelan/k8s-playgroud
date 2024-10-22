@@ -1,0 +1,85 @@
+apiVersion: kyverno.io/v2beta1
+kind: PolicyException
+metadata:
+  labels:
+    cleanup.kyverno.io/ttl: 2024-10-29T075051Z
+  name: policy-exc-req-g5355n6553v-0
+  namespace: kyverno
+spec:
+  exceptions:
+  - policyName: disallow-privilege-escalation
+    ruleNames:
+    - privilege-escalation
+    - autogen-privilege-escalation
+  - policyName: require-run-as-nonroot
+    ruleNames:
+    - run-as-non-root
+    - autogen-run-as-non-root
+  - policyName: disallow-capabilities
+    ruleNames:
+    - adding-capabilities
+    - autogen-adding-capabilities
+  - policyName: disallow-privileged-containers
+    ruleNames:
+    - privileged-containers
+    - autogen-privileged-containers
+  - policyName: restrict-volume-types
+    ruleNames:
+    - restricted-volumes
+    - autogen-restricted-volumes
+  - policyName: disallow-host-namespaces
+    ruleNames:
+    - host-namespaces
+    - autogen-host-namespaces
+  - policyName: disallow-host-path
+    ruleNames:
+    - host-path
+    - autogen-host-path
+  - policyName: disallow-capabilities-strict
+    ruleNames:
+    - adding-capabilities-strict
+    - require-drop-all
+    - autogen-adding-capabilities-strict
+    - autogen-require-drop-all
+  - policyName: restrict-seccomp-strict
+    ruleNames:
+    - check-seccomp-strict
+    - autogen-check-seccomp-strict
+  match:
+    any:
+    - resources:
+        kinds:
+        - Pod
+        names:
+        - kube-controller-manager-test123-control-plane
+        - kindnet-9kr77
+        - kube-proxy-w4sfj
+        - kube-apiserver-test123-control-plane
+        - coredns-6f6b679f8f-ctp2r
+        - kube-scheduler-test123-control-plane
+        - coredns-6f6b679f8f-s65wt
+        - etcd-test123-control-plane
+        namespaces:
+        - kube-system
+    - resources:
+        kinds:
+        - ReplicaSet
+        names:
+        - coredns-6f6b679f8f
+        namespaces:
+        - kube-system
+    - resources:
+        kinds:
+        - DaemonSet
+        names:
+        - kindnet
+        - kube-proxy
+        namespaces:
+        - kube-system
+    - resources:
+        kinds:
+        - Deployment
+        names:
+        - coredns
+        namespaces:
+        - kube-system
