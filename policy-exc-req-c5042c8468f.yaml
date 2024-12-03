@@ -1,0 +1,85 @@
+apiVersion: kyverno.io/v2beta1
+kind: PolicyException
+metadata:
+  labels:
+    cleanup.kyverno.io/ttl: 2024-12-10T090726Z
+  name: policy-exc-req-c5042c8468f-0
+  namespace: kyverno
+spec:
+  exceptions:
+  - policyName: disallow-privilege-escalation
+    ruleNames:
+    - privilege-escalation
+    - autogen-privilege-escalation
+  - policyName: require-run-as-nonroot
+    ruleNames:
+    - autogen-run-as-non-root
+    - run-as-non-root
+  - policyName: disallow-capabilities
+    ruleNames:
+    - adding-capabilities
+    - autogen-adding-capabilities
+  - policyName: disallow-privileged-containers
+    ruleNames:
+    - privileged-containers
+    - autogen-privileged-containers
+  - policyName: restrict-volume-types
+    ruleNames:
+    - autogen-restricted-volumes
+    - restricted-volumes
+  - policyName: disallow-host-namespaces
+    ruleNames:
+    - autogen-host-namespaces
+    - host-namespaces
+  - policyName: disallow-host-path
+    ruleNames:
+    - host-path
+    - autogen-host-path
+  - policyName: restrict-seccomp-strict
+    ruleNames:
+    - check-seccomp-strict
+    - autogen-check-seccomp-strict
+  - policyName: disallow-capabilities-strict
+    ruleNames:
+    - autogen-adding-capabilities-strict
+    - autogen-require-drop-all
+    - require-drop-all
+    - adding-capabilities-strict
+  match:
+    any:
+    - resources:
+        kinds:
+        - Pod
+        names:
+        - kindnet-9k2xc
+        - kube-scheduler-nctl-rc5-control-plane
+        - kube-controller-manager-nctl-rc5-control-plane
+        - kube-apiserver-nctl-rc5-control-plane
+        - coredns-7c65d6cfc9-v78tt
+        - etcd-nctl-rc5-control-plane
+        - coredns-7c65d6cfc9-bjkz4
+        - kube-proxy-6kdx6
+        namespaces:
+        - kube-system
+    - resources:
+        kinds:
+        - Deployment
+        names:
+        - coredns
+        namespaces:
+        - kube-system
+    - resources:
+        kinds:
+        - ReplicaSet
+        names:
+        - coredns-7c65d6cfc9
+        namespaces:
+        - kube-system
+    - resources:
+        kinds:
+        - DaemonSet
+        names:
+        - kindnet
+        - kube-proxy
+        namespaces:
+        - kube-system
