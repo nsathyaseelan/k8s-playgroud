@@ -1,0 +1,37 @@
+apiVersion: kyverno.io/v2beta1
+kind: PolicyException
+metadata:
+  labels:
+    cleanup.kyverno.io/ttl: 2025-03-11T030200Z
+  name: policy-exc-req-p4101i7115o-0
+  namespace: kyverno
+spec:
+  exceptions:
+  - policyName: disallow-privilege-escalation
+    ruleNames:
+    - privilege-escalation
+  - policyName: require-run-as-nonroot
+    ruleNames:
+    - run-as-non-root
+  - policyName: restrict-seccomp-strict
+    ruleNames:
+    - check-seccomp-strict
+  - policyName: disallow-capabilities-strict
+    ruleNames:
+    - require-drop-all
+  match:
+    any:
+    - resources:
+        kinds:
+        - ReplicaSet
+        names:
+        - local-path-provisioner-58cc7856b6
+        namespaces:
+        - local-path-storage
+    - resources:
+        kinds:
+        - Pod
+        names:
+        - local-path-provisioner-58cc7856b6-b5fqr
+        namespaces:
+        - local-path-storage
